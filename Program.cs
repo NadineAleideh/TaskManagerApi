@@ -31,6 +31,23 @@ namespace TaskManagerApi
             // Configuring dependency injection: Associates ITsk with TskService using transient lifetime.
             builder.Services.AddTransient<ITsk, TskService>();
 
+            builder.Services.AddControllers().AddNewtonsoftJson(options =>
+              options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+              );
+
+
+            builder.Services.AddCors(options =>
+            {
+                options.AddDefaultPolicy(
+                    policy =>
+                    {
+                        policy.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                    }
+                    );
+            });
+
 
             var app = builder.Build();
 
